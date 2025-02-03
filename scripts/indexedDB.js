@@ -1,7 +1,7 @@
 async function saveOrUpdateData(storeName, jsonData, primaryKey = 'NIK') {
-    const dbName = 'db'; // Nama database tetap 'Santri'
-    const version = 1;
-
+    const dbName = 'db';
+    let db;
+    
     // Pastikan data sesuai dengan storeName
     if (!jsonData[storeName]) {
         console.error(`Property '${storeName}' tidak ditemukan dalam jsonData.`);
@@ -13,80 +13,109 @@ async function saveOrUpdateData(storeName, jsonData, primaryKey = 'NIK') {
         jsonData[storeName] = [jsonData[storeName]];
     }
 
-    // Membuka database
-    const request = indexedDB.open(dbName, version);
-    let db;
+    try {
+        db = await openOrUpgradeDatabase(dbName, storeName, primaryKey);
+        await saveDataToStore(db, storeName, jsonData[storeName], primaryKey);
+        db.close();
+    } catch (error) {
+        console.error('Database operation failed:', error);
+    }
+}
 
-    request.onupgradeneeded = function(event) {
-        db = event.target.result;
-        if (!db.objectStoreNames.contains(storeName)) {
-            db.createObjectStore(storeName, { keyPath: primaryKey });
-        }
-    };
+async function openOrUpgradeDatabase(dbName, storeName, primaryKey) {
+    return new Promise((resolve, reject) => {
+        let request = indexedDB.open(dbName);
 
-    request.onsuccess = function(event) {
-        db = event.target.result;
+        request.onsuccess = function (event) {
+            let db = event.target.result;
+            if (!db.objectStoreNames.contains(storeName)) {
+                db.close();
+                // Upgrade database jika store belum ada
+                const newVersion = db.version + 1;
+                request = indexedDB.open(dbName, newVersion);
+                
+                request.onupgradeneeded = function (event) {
+                    db = event.target.result;
+                    db.createObjectStore(storeName, { keyPath: primaryKey });
+                };
+
+                request.onsuccess = function (event) {
+                    resolve(event.target.result);
+                };
+
+                request.onerror = function (event) {
+                    reject(event.target.error);
+                };
+            } else {
+                resolve(db);
+            }
+        };
+
+        request.onupgradeneeded = function (event) {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains(storeName)) {
+                db.createObjectStore(storeName, { keyPath: primaryKey });
+            }
+        };
+
+        request.onerror = function (event) {
+            reject(event.target.error);
+        };
+    });
+}
+
+function saveDataToStore(db, storeName, dataArray, primaryKey) {
+    return new Promise((resolve, reject) => {
         const transaction = db.transaction(storeName, 'readwrite');
         const store = transaction.objectStore(storeName);
 
-        jsonData[storeName].forEach(item => {
+        let pendingOperations = dataArray.length;
+
+        if (pendingOperations === 0) {
+            resolve();
+            return;
+        }
+
+        dataArray.forEach(item => {
             if (!item[primaryKey]) {
                 console.error(`Missing '${primaryKey}' property in item:`, item);
+                pendingOperations--;
+                if (pendingOperations === 0) resolve();
                 return;
             }
 
             const request = store.get(item[primaryKey]);
 
-            request.onsuccess = function(event) {
+            request.onsuccess = function (event) {
                 const existingData = event.target.result;
+                const saveRequest = existingData ? store.put({ ...existingData, ...item }) : store.add(item);
 
-                if (existingData) {
-                    store.put({ ...existingData, ...item });
-                } else {
-                    store.add(item);
-                }
+                saveRequest.onsuccess = function () {
+                    pendingOperations--;
+                    if (pendingOperations === 0) resolve();
+                };
+
+                saveRequest.onerror = function (event) {
+                    console.error('Error saving data:', event.target.error);
+                    pendingOperations--;
+                    if (pendingOperations === 0) reject(event.target.error);
+                };
             };
 
-            request.onerror = function(event) {
+            request.onerror = function (event) {
                 console.error('Error checking data:', event.target.error);
+                pendingOperations--;
+                if (pendingOperations === 0) reject(event.target.error);
             };
         });
 
-        transaction.oncomplete = function() {
-            console.log('Data saved or updated successfully');
-            db.close();
+        transaction.onerror = function (event) {
+            reject(event.target.error);
         };
-
-        transaction.onerror = function(event) {
-            console.error('Error saving or updating data');
-            db.close();
-        };
-    };
-
-    request.onerror = function(event) {
-        console.error('Error opening database:', event.target.error);
-    };
+    });
 }
 
-function ambilDataSantri() {
-    let dbRequest = indexedDB.open("db"); // Tidak menentukan versi agar selalu mendapatkan versi terbaru
-    
-    dbRequest.onsuccess = function(event) {
-        let db = event.target.result;
-        let transaction = db.transaction("Santri", "readonly");
-        let store = transaction.objectStore("Santri");
-        let request = store.getAll();
-        
-        request.onsuccess = function() {
-            let data = request.result;
-            buatTabelSantri(data);
-        };
-    };
-    
-    dbRequest.onerror = function() {
-        console.error("Gagal membuka database");
-    };
-}
+
 
 async function ambilDataSantri() {
     let dbRequest = indexedDB.open("db"); // Tidak menentukan versi agar selalu mendapatkan versi terbaru

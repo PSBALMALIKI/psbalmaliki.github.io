@@ -205,32 +205,47 @@ async function sendPostWithGet(jsonData) {
 }
 
 async function DownloadData() {
-  // Menampilkan indikator loading
-  const LoadingDownload = document.getElementById('Loading');
-  await deleteIndexedDBStore("Santri");
-
-  console.log('Jalan')
-  const filters = { Santri: { } }; // Kriteria filter
+  console.log("Memulai proses download data...");
   
+  const LoadingDownload = document.getElementById('Loading');
+
+  // Pastikan elemen indikator loading ada sebelum mengaksesnya
+  if (LoadingDownload) {
+      LoadingDownload.style.display = 'block';
+  }
+
   try {
-    // Menunggu data selesai didapat
-    const data = await GetData(url, filters);
-    console.log("Data received for saving:", data); // Log the data before saving
+      console.log("Menghapus data lama dari IndexedDB...");
+      await deleteIndexedDBStore("Santri");
+      console.log("Data lama berhasil dihapus.");
 
-    // Menyimpan data ke IndexedDB dan menunggu hingga selesai
-    
-    await saveOrUpdateData("Santri", data, "NIK");
-    ambilDataSantri();
+      const filters = { Santri: {} }; // Kriteria filter
 
-    LoadingDownload.style.display = 'none';
+      console.log("Mengambil data dari server...");
+      const data = await GetData(url, filters);
+      console.log("Data diterima:", data);
 
+      if (!data || !data.Santri || data.Santri.length === 0) {
+          throw new Error("Data kosong atau tidak sesuai format.");
+      }
+
+      console.log("Menyimpan data ke IndexedDB...");
+      await saveOrUpdateData("Santri", data, "NIK");
+      console.log("Data berhasil disimpan.");
+
+      console.log("Mengambil ulang data untuk ditampilkan...");
+      ambilDataSantri();
+      
   } catch (error) {
-    console.error("Terjadi kesalahan:", error);
-    
-    // Menyembunyikan indikator loading jika terjadi error
-    LoadingDownload.style.display = 'none';
+      console.error("Terjadi kesalahan:", error);
+  } finally {
+      // Sembunyikan indikator loading setelah proses selesai
+      if (LoadingDownload) {
+          LoadingDownload.style.display = 'none';
+      }
   }
 }
+
 
 document.addEventListener("DOMContentLoaded", DownloadData);
 
