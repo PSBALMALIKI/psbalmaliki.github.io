@@ -1,0 +1,138 @@
+  /* Style untuk modal */
+.modal-content {
+  background-color: var(--app-bg);
+  color: var(--app-content-main-color);
+  border: none;
+  border-radius: 8px;
+  box-shadow: var(--filter-shadow);
+}
+
+.modal-header {
+  background-color: var(--sidebar);
+  color: var(--sidebar-main-color);
+  border-bottom: 1px solid var(--table-border);
+}
+
+.modal-title {
+  color: var(--sidebar-main-color);
+}
+
+.modal-body {
+  background-color: var(--app-bg);
+  color: var(--app-content-main-color);
+  padding: 20px;
+}
+
+.modal-footer {
+  background-color: var(--app-bg);
+  color: var(--app-content-main-color);
+  border-top: 1px solid var(--table-border);
+}
+
+.modal-footer .btn-primary {
+  background-color: var(--action-color);
+  border: none;
+  color: var(--app-content-main-color);
+  transition: background-color 0.3s ease;
+}
+
+.modal-footer .btn-primary:hover {
+  background-color: var(--action-color-hover);
+  color: var(--sidebar-main-color);
+}
+
+
+
+/* Tabe */
+
+#santriTable {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--app-content-secondary-color);
+  color: var(--app-content-main-color);
+  
+}
+
+#santriTable thead {
+  background-color: var(--table-header);
+  color: var(--sidebar-main-color);
+}
+
+#santriTable thead th {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 2px solid var(--table-border);
+  font-size: 11pt;
+  
+}
+
+#santriTable tbody tr {
+  border-bottom: 1px solid var(--table-border);
+  font-size: 11pt;
+  color: var(--app-content-main-color);
+}
+
+#santriTable tbody tr:nth-child(even) {
+  background-color: var(--sidebar);
+}
+
+#santriTable tbody tr:hover {
+  background-color: var(--sidebar-hover-link);
+  cursor: pointer;
+}
+
+#santriTable tbody td {
+  padding: px;
+  border-bottom: 1px solid var(--table-border);
+  color: var(--app-content-main-color);
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  background-color: var(--action-color);
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin: 2px;
+  border: none;
+  font-size: small;
+  color: var(--app-content-main-color);
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  background-color: var(--action-color-hover);
+}
+
+.dataTables_wrapper .dataTables_length select,
+.dataTables_wrapper .dataTables_filter input {
+  background-color: var(--app-content-secondary-color) !important;
+  color: var(--app-content-main-color);
+  border: 1px solid var(--table-border);
+  padding: 5px;
+  border-radius: 4px;
+}
+
+/* Styling untuk length menu (dropdown jumlah data per halaman) */
+.dataTables_wrapper .dataTables_length {
+  margin-bottom: 10px;
+  font-size: small;
+  
+}
+
+.dataTables_wrapper .dataTables_length label {
+  color: var(--app-content-main-color);
+  font-weight: 500;
+  font-size: small;
+  
+}
+
+.dataTables_wrapper .dataTables_length select {
+  background-color: var(--app-bg);
+  color: var(--app-content-main-color);
+  border: 1px solid var(--table-border);
+  padding: 5px;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+  
+}
+
+

@@ -1,0 +1,686 @@
+<html lang="en">
+ <head>
+    <title>PP Al-Maliki</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <meta property="og:title" content="Aplikasi Pendaftaran">
+    <meta property="og:description" content="Aplikasi Pendaftaran Al-Maliki">
+    <meta property="og:image" content="./gambar/logo.webp">
+    <meta property="og:url" content="./gambar/logo.webp">
+    <meta property="og:type" content="website">
+  
+  
+  
+    <link rel="icon" href="./gambar/logo.webp" type="image/x-icon">
+  
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="./styles/tema.css">
+    <link rel="stylesheet" href="./styles/style.css">
+    <link rel="stylesheet" href="./styles/modal.css">
+    <link rel="stylesheet" href="./styles/animasi.css">
+    <link rel="icon" href="./gambar/logo.webp" type="image/x-icon">
+
+ </head>
+ <body>
+
+    <div class="container mx-auto p-4">
+        <div class="profile-header flex flex-col md:flex-row justify-between">
+            <div class="flex items-center">
+                <img alt="Foto profil guru" 
+                    class="foto w-24 h-24 mr-4" 
+                    src="./gambar/logo.webp"/>
+                <div>
+                    <h3>Pendaftaran Santri Baru</h3>
+                    <h2>Pondok Pesantren Sayyid Muhammad Alawi Al-Maliki</h2>
+                    
+                </div>
+            </div>
+
+            <div class="menu d-flex justify-content-end">
+                <div class="flex mt-4 md:mt-0">
+
+                    <button class="mode-switch" 
+                        title="Switch Theme">
+                        <svg class="moon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="24" height="24" viewBox="0 0 24 24">
+                            <defs></defs>
+                            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                        </svg>
+                    </button>
+
+                    <button style="display: none;" type="button" class="btn-sm home-btn position-relative" data-bs-toggle="modal" data-bs-target="#ModalNotifikasi">
+                        <i class="bi bi-upload"></i> 
+                        <span class="position-absolute translate-middle badge rounded-pill" style="font-size: 10px; margin-top: 5px;">0</span>
+                    </button>
+                  
+                  
+                    <div class="modal fade modal-sm" tabindex="-1" id="ModalNotifikasi" style="position: fixed; top: 0; right: 20px;">
+                        <div class="modal-dialog" style="position: absolute; top: 0; right: 20px;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h6 class="modal-title">Proses</h6>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                            <p>Proses data yg belum tersimpan akan muncul di sini.</p>
+                            </div>
+                            <div class="modal-footer modal-footer-sm">
+                            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                
+                            <button class="btn btn-primary btn-sm" id="SimpanSemuaLocal" onclick="simpanSemua()" type="button" disabled>
+                                <span class="spinner-border spinner-border-sm" id="loadingSimpanUlang" style="display: none;" aria-hidden="true"></span>
+                                <span class="visually-hidden" role="status">Loading ...</span>
+                                Simpan Ulang
+                            </button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
+
+
+        <div id="formulir" class="g-3 d-md-flex align-items-start gap-5">
+            
+            <!-- NIK -->
+            <form class="row g-3" id="profile-NIK">
+                <div class="d-flex gap-2">
+                    <h1><i class="fas fa-user-circle"></i> Identitas Santri</h1>
+                    
+                </div>
+                <div class="profile-content mt-6">
+                    
+                    <div class="mb-3">
+                        <label for="NIK" class="form-label"><i class="fas fa-id-card"></i> NIK:</label>
+                        <input type="text" class="form-control" id="NIK" name="NIK" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1').replace(/(\d{4})(\d{4})(\d{4})(\d{4})/g, '$1-$2-$3-$4');" maxlength="19" />
+                    </div>
+                    <p id="notif1">Silakan isi NIK terlebih dahulu.</p>
+                    <br>
+                    <button id="Edit" class="row-btn float-right" onclick="toggleEditMode(); return false;" disabled>
+                        Isi Formulir <i class="fas fa-pen"></i>
+                    </button>
+                    
+                </div>
+            </form>
+
+            <div id="isiFormulir" style="display: none;">
+                <div class="d-flex flex-column biodata-santri" style="min-width: 300px;">
+                    <!-- Biodata -->
+                    <form class="row g-3" id="profile-Biodata">
+                        <div class="d-flex gap-2">
+                            <h1><i class="fas fa-user-circle"></i> Biodata</h1>
+                            
+                        </div>
+
+
+                        <div class="profile-content mt-6">
+
+                            <div class="mb-3">
+                                <label for="Nama" class="form-label"><i class="fas fa-user"></i> Nama:</label>
+                                <input disabled type="text" class="form-control" id="Nama" name="Nama" value=""/>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="NISM" class="form-label"><i class="fas fa-credit-card"></i> NISM:</label>
+                                <input disabled type="text" class="form-control" id="NISM" name="NISM" value=""/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="NISN" class="form-label"><i class="fas fa-credit-card"></i> NISN:</label>
+                                <input disabled type="text" class="form-control" id="NISN" name="NISN" value=""/>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="NoKK" class="form-label"><i class="fas fa-id-card"></i> NoKK:</label>
+                                <input disabled type="text" class="form-control" id="NoKK" name="NoKK" value=""/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="KepalaKeluarga" class="form-label"><i class="fas fa-user"></i> Kepala Keluarga:</label>
+                                <input disabled type="text" class="form-control" id="KepalaKeluarga" name="KepalaKeluarga" value=""/>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="TempatLahir" class="form-label"><i class="fas fa-map-marker-alt"></i> Tempat Lahir:</label>
+                                <input disabled type="text" class="form-control" id="TempatLahir" name="TempatLahir" value=""/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="TanggalLahir" class="form-label"><i class="fas fa-calendar"></i> Tanggal Lahir</label>
+                                <input disabled type="date" class="form-control" id="TanggalLahir" name="TanggalLahir" value=""/>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="Usia" class="form-label"><i class="fas fa-birthday-cake"></i> Usia:</label>
+                                <input disabled type="number" class="form-control" id="Usia" name="Usia" value=""/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="Gender" class="form-label"><i class="fas fa-venus-mars"></i> Gender:</label>
+                                <select disabled class="form-control" id="Gender" name="Gender" onchange="setOpsiHide('carouselPerempuan', 'Perempuan', 'Gender'); setOpsiHide('carouselLaki', 'Laki-laki', 'Gender');">
+                                    <option value="Laki-laki">Laki-laki</option>
+                                    <option value="Perempuan">Perempuan</option>
+                                </select>
+                            </div>
+
+
+                            <div class="d-flex gap-2">
+                                <div class="mb-3">
+                                    <label for="AnakKe" class="form-label"><i class="fas fa-child"></i> Anak Ke:</label>
+                                    <input disabled type="number" class="form-control" id="AnakKe" name="AnakKe" value=""/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="JumlahSaudara" class="form-label"><i class="fas fa-users"></i>Saudara:</label>
+                                    <input disabled type="number" class="form-control" id="JumlahSaudara" name="JumlahSaudara" value=""/>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="Alamat" class="form-label"><i class="fas fa-map-marker-alt"></i> Alamat :</label>
+                                <div class="accordion accordion-flush" id="accordionFlushExample">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                                Alamat
+                                            </button>
+                                        </h2>
+                                        <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                            <div class="accordion-body">
+                                                <div class="card card-body">
+                                                    
+                                                    <div class="d-flex gap-2">
+                                                        <div class="mb-3" style="width: 100%;">
+                                                            <label for="Dusun" class="form-label"><i class="fas fa-map-marker-alt"></i> Dusun</label>
+                                                            <input disabled type="text" class="form-control" id="Dusun" name="Dusun" value=""/>
+                                                        </div>
+                                                        <div class="mb-3" style="max-width: 50px;">
+                                                            <label for="RT" class="form-label">RT</label>
+                                                            <input disabled type="text" class="form-control" id="RT" name="RT" value=""/>
+                                                        </div>
+                                                        <div class="mb-3" style="max-width: 50px;">
+                                                            <label for="RW" class="form-label">RW</label>
+                                                            <input disabled type="text" class="form-control" id="RW" name="RW" value=""/>
+                                                        </div>
+                                                    </div>
+
+                                                    
+                                                    <div class="mb-3">
+                                                        <label for="Desa" class="form-label"><i class="fas fa-map-marker-alt"></i> Desa</label>
+                                                        <input disabled type="text" class="form-control" id="Desa" name="Desa" value=""/>
+                                                    </div>
+                                                
+                                                    <div class="mb-3">
+                                                        <label for="Kecamatan" class="form-label"><i class="fas fa-map-marker-alt"></i> Kecamatan</label>
+                                                        <input disabled type="text" class="form-control" id="Kecamatan" name="Kecamatan" value=""/>
+                                                    </div>
+                        
+                                                    <div class="d-flex gap-2">
+                                                        <div class="mb-3" style="width: 100%;">
+                                                            <label for="Kabupaten" class="form-label"><i class="fas fa-map-marker-alt"></i> Kabupaten</label>
+                                                            <input disabled type="text" class="form-control" id="Kabupaten" name="Kabupaten" value=""/>
+                                                        </div>
+                                                        <div class="mb-3" style="max-width: 90px;">
+                                                            <label for="KodePos" class="form-label">Kode Pos</label>
+                                                            <input disabled type="text" class="form-control" id="KodePos" name="KodePos" value=""/>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label for="Provinsi" class="form-label"><i class="fas fa-map-marker-alt"></i> Provinsi</label>
+                                                        <input disabled type="text" class="form-control" id="Provinsi" name="Provinsi" value=""/>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Mahrom -->
+                    <form class="row g-3" id="profile-Mahrom">
+                        <div class="d-flex gap-2">
+                            <h1><i class="fas fa-users"></i> Mahrom</h1>
+                            
+                        </div>
+
+
+                        <div class="profile-content mt-6">
+
+                            <div class="mb-3">
+                                <label for="SaudaraKandung" class="form-label">
+                                    <i class="fas fa-user-friends"></i> Saudara Kandung:
+                                </label>
+                                <input disabled type="text" class="form-control" id="SaudaraKandung" name="SaudaraKandung" value=""/>
+                            </div>
+                        
+                            <div class="mb-3">
+                                <label for="KakekDariAyah" class="form-label">
+                                    <i class="fas fa-user-tie"></i> Kakek dari Ayah:
+                                </label>
+                                <input disabled type="text" class="form-control" id="KakekDariAyah" name="KakekDariAyah" value=""/>
+                            </div>
+                        
+                            <div class="mb-3">
+                                <label for="NenekDariAyah" class="form-label">
+                                    <i class="fas fa-user"></i> Nenek dari Ayah:
+                                </label>
+                                <input disabled type="text" class="form-control" id="NenekDariAyah" name="NenekDariAyah" value=""/>
+                            </div>
+                        
+                            <div class="mb-3">
+                                <label for="KakekDariIbu" class="form-label">
+                                    <i class="fas fa-user-tie"></i> Kakek dari Ibu:
+                                </label>
+                                <input disabled type="text" class="form-control" id="KakekDariIbu" name="KakekDariIbu" value=""/>
+                            </div>
+                        
+                            <div class="mb-3">
+                                <label for="NenekDariIbu" class="form-label">
+                                    <i class="fas fa-user"></i> Nenek dari Ibu:
+                                </label>
+                                <input disabled type="text" class="form-control" id="NenekDariIbu" name="NenekDariIbu" value=""/>
+                            </div>
+                        
+                            <div class="mb-3">
+                                <label for="PamanDariAyah" class="form-label">
+                                    <i class="fas fa-user-tie"></i> Paman dari Ayah:
+                                </label>
+                                <input disabled type="text" class="form-control" id="PamanDariAyah" name="PamanDariAyah" value=""/>
+                            </div>
+                        
+                            <div class="mb-3">
+                                <label for="BibiDariAyah" class="form-label">
+                                    <i class="fas fa-user"></i> Bibi dari Ayah:
+                                </label>
+                                <input disabled type="text" class="form-control" id="BibiDariAyah" name="BibiDariAyah" value=""/>
+                            </div>
+                        
+                            <div class="mb-3">
+                                <label for="PamanDariIbu" class="form-label">
+                                    <i class="fas fa-user-tie"></i> Paman dari Ibu:
+                                </label>
+                                <input disabled type="text" class="form-control" id="PamanDariIbu" name="PamanDariIbu" value=""/>
+                            </div>
+                        
+                            <div class="mb-3">
+                                <label for="BibiDariIbu" class="form-label">
+                                    <i class="fas fa-user"></i> Bibi dari Ibu:
+                                </label>
+                                <input disabled type="text" class="form-control" id="BibiDariIbu" name="BibiDariIbu" value=""/>
+                            </div>
+                        
+                        </div>
+                        
+                    </form>
+
+                    <!-- Ayah -->
+                    <form class="row g-3" id="profile-Ayah">
+                        <div class="d-flex gap-2">
+                            <h1><i class="fas fa-male"></i> Biodata Ayah</h1>
+                            
+                        </div>
+
+                        <div class="profile-content mt-6">
+
+                            <div class="mb-3">
+                                <label for="Ayah" class="form-label"><i class="fas fa-user-friends"></i> Nama Ayah:</label>
+                                <input disabled type="text" class="form-control" id="Ayah" name="Ayah" value=""/>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="StatusAyah" class="form-label"><i class="fas fa-user-friends"></i> Status Ayah:</label>
+                                <select disabled class="form-control" id="StatusAyah" name="StatusAyah">
+                                    <option value="Masih Hidup">Masih Hidup</option>
+                                    <option value="Sudah Meninggal">Sudah Meninggal</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="NIKAyah" class="form-label"><i class="fas fa-id-card"></i> NIK Ayah:</label>
+                                <input disabled type="text" class="form-control" id="NIKAyah" name="NIKAyah" value=""/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="TempatLahirAyah" class="form-label"><i class="fas fa-map-marker-alt"></i> Tempat Lahir Ayah:</label>
+                                <input disabled type="text" class="form-control" id="TempatLahirAyah" name="TempatLahirAyah" value=""/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="TanggalLahirAyah" class="form-label"><i class="fas fa-calendar"></i> Tanggal Lahir Ayah:</label>
+                                <input disabled type="date" class="form-control" id="TanggalLahirAyah" name="TanggalLahirAyah" value=""/>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="PendidikanAyah" class="form-label"><i class="fas fa-graduation-cap"></i> Pendidikan Ayah:</label>
+                                <select disabled class="form-control" id="PendidikanAyah" name="PendidikanAyah">
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="PekerjaanAyah" class="form-label"><i class="fas fa-briefcase"></i> Pekerjaan Ayah:</label>
+                                <input disabled type="text" class="form-control" id="PekerjaanAyah" name="PekerjaanAyah" value=""/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="PenghasilanAyah" class="form-label"><i class="fas fa-money-bill-wave"></i> Penghasilan Ayah:</label>
+                                <select disabled class="form-control" id="PenghasilanAyah" name="PenghasilanAyah">
+                                </select>
+                            </div>
+
+                        </div>
+                        
+                    </form>
+
+                    <!-- Ibu -->
+                    <form class="row g-3" id="profile-Ibu">
+                        <div class="d-flex gap-2">
+                            <h1><i class="fas fa-female"></i> Biodata Ibu</h1>
+                            
+                        </div>
+
+
+                        <div class="profile-content mt-6">
+
+                            <div class="mb-3">
+                                <label for="Ibu" class="form-label"><i class="fas fa-user-friends"></i> Nama Ibu:</label>
+                                <input disabled type="text" class="form-control" id="Ibu" name="Ibu" value=""/>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="StatusIbu" class="form-label"><i class="fas fa-user-friends"></i> Status Ibu:</label>
+                                <select disabled class="form-control" id="StatusIbu" name="StatusIbu">
+                                    <option value="Masih Hidup">Masih Hidup</option>
+                                    <option value="Sudah Meninggal">Sudah Meninggal</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="NIKIbu" class="form-label"><i class="fas fa-id-card"></i> NIK Ibu:</label>
+                                <input disabled type="text" class="form-control" id="NIKIbu" name="NIKIbu" value=""/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="TempatLahirIbu" class="form-label"><i class="fas fa-map-marker-alt"></i> Tempat Lahir Ibu:</label>
+                                <input disabled type="text" class="form-control" id="TempatLahirIbu" name="TempatLahirIbu" value=""/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="TanggalLahirIbu" class="form-label"><i class="fas fa-calendar"></i> Tanggal Lahir Ibu:</label>
+                                <input disabled type="date" class="form-control" id="TanggalLahirIbu" name="TanggalLahirIbu" value=""/>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="PendidikanIbu" class="form-label"><i class="fas fa-graduation-cap"></i> Pendidikan Ibu:</label>
+                                <select disabled class="form-control" id="PendidikanIbu" name="PendidikanIbu">
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="PekerjaanIbu" class="form-label"><i class="fas fa-briefcase"></i> Pekerjaan Ibu:</label>
+                                <input disabled type="text" class="form-control" id="PekerjaanIbu" name="PekerjaanIbu" value=""/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="PenghasilanIbu" class="form-label"><i class="fas fa-money-bill-wave"></i> Penghasilan Ibu:</label>
+                                <select disabled class="form-control" id="PenghasilanIbu" name="PenghasilanIbu">
+                                </select>
+                            </div>
+
+
+
+                        </div>
+                    
+                    
+                    </form>
+
+                    <!-- Wali -->
+                    <form class="row g-3" id="profile-Wali">
+                        <div class="d-flex gap-2">
+                            <h1><i class="fas fa-user-tie"></i> Biodata Wali</h1>
+                            
+                        </div>
+
+                        <div class="profile-content mt-6">
+                            <div class="mb-3">
+                                <label for="TinggalBersama" class="form-label"><i class="fas fa-user-friends"></i> Tinggal Bersama:</label>
+                                <select disabled class="form-control" id="TinggalBersama" name="TinggalBersama" onchange="setOpsiHide('BiodataWali', 'Wali', 'TinggalBersama')">
+                                    <option value="Orang Tua">Orang Tua</option>
+                                    <option value="Wali">Wali</option>
+                                </select>
+                            </div>
+
+                            <div id="BiodataWali" style="display: none;">
+                                <div class="mb-3">
+                                    <label for="Wali" class="form-label"><i class="fas fa-user-friends"></i> Nama Wali:</label>
+                                    <input disabled type="text" class="form-control" id="Wali" name="Wali" value=""/>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="StatusWali" class="form-label"><i class="fas fa-user-friends"></i> Status Wali:</label>
+                                    <select disabled class="form-control" id="StatusWali" name="StatusWali">
+                                        <option value="Paman/Bibi">Paman/Bibi</option>
+                                        <option value="Kakek/Nenek">Kakek/Nenek</option>
+                                        <option value="Saudara">Saudara</option>
+                                        <option value="Lainnya">Lainnya</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="NIKWali" class="form-label"><i class="fas fa-id-card"></i> NIK Wali:</label>
+                                    <input disabled type="text" class="form-control" id="NIKWali" name="NIKWali" value=""/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="TempatLahirWali" class="form-label"><i class="fas fa-map-marker-alt"></i> Tempat Lahir Wali:</label>
+                                    <input disabled type="text" class="form-control" id="TempatLahirWali" name="TempatLahirWali" value=""/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="TanggalLahirWali" class="form-label"><i class="fas fa-calendar"></i> Tanggal Lahir Wali:</label>
+                                    <input disabled type="date" class="form-control" id="TanggalLahirWali" name="TanggalLahirWali" value=""/>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="PendidikanWali" class="form-label"><i class="fas fa-graduation-cap"></i> Pendidikan Wali:</label>
+                                    <select disabled class="form-control" id="PendidikanWali" name="PendidikanWali">
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="PekerjaanWali" class="form-label"><i class="fas fa-briefcase"></i> Pekerjaan Wali:</label>
+                                    <input disabled type="text" class="form-control" id="PekerjaanWali" name="PekerjaanWali" value=""/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="PenghasilanWali" class="form-label"><i class="fas fa-money-bill-wave"></i> Penghasilan Wali:</label>
+                                    <select disabled class="form-control" id="PenghasilanWali" name="PenghasilanWali">
+                                    </select>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </form>
+
+                    <!-- Sekolah Sebelumnya -->
+                    <form class="row g-3" id="profile-Sekolah">
+                        <div class="d-flex gap-2">
+                            <h1><i class="fas fa-school"></i> Sekolah Formal</h1>
+                            
+                        </div>
+
+                        <div class="profile-content mt-6">
+
+                            <div class="mb-3">
+                                <label for="SekolahFormal" class="form-label"><i class="fas fa-graduation-cap"></i> Sekolah Formal:</label>
+                                <select disabled class="form-control" id="SekolahFormal" name="SekolahFormal">
+                                    <option value="SD">SD</option>
+                                    <option value="SMP">SMP</option>
+                                    <option value="SMA">SMA</option>
+                                    <option value="SMK">SMK</option>
+                                    <option value="MA">MA</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="NamaSekolah" class="form-label"><i class="fas fa-school"></i> Nama Sekolah:</label>
+                                <input disabled type="text" class="form-control" id="NamaSekolah" name="NamaSekolah" value=""/>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="AlamatSekolah" class="form-label"><i class="fas fa-map-marker-alt"></i> Alamat Sekolah:</label>
+                                <input disabled type="text" class="form-control" id="AlamatSekolah" name="AlamatSekolah" value=""/>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="TahunLulusSekolah" class="form-label"><i class="fas fa-calendar"></i> Tahun Lulus Sekolah:</label>
+                                <input disabled type="number" class="form-control" id="TahunLulusSekolah" name="TahunLulusSekolah" value=""/>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="NPSN" class="form-label"><i class="fas fa-id-card"></i> NPSN:</label>
+                                <input disabled type="text" class="form-control" id="NPSN" name="NPSN" value=""/>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="NSM" class="form-label"><i class="fas fa-id-card"></i> NSM:</label>
+                                <input disabled type="text" class="form-control" id="NSM" name="NSM" value=""/>
+                            </div>
+                            
+                        </div>
+                    </form>
+
+                    <!-- Melanjutkan Ke -->
+                    <form class="row g-3" id="profile-Formal">
+                        <div class="d-flex gap-2">
+                            <h1><i class="fas fa-school"></i> Rencana Melanjutkan Ke:</h1>
+                            
+                        </div>
+
+                        <div class="profile-content mt-6">
+
+                            <div class="mb-3">
+                                <label for="Formal" class="form-label"><i class="fas fa-graduation-cap"></i> Melanjutkan Ke:</label>
+                                <select disabled class="form-control" id="Formal" name="Formal">
+                                    <option value="MTs. Nurul Huda">MTs. Nurul Huda</option>
+                                    <option value="MA. Nurul Huda">MA. Nurul Huda</option>
+                                </select>
+                            </div>
+
+                            <!--
+                            <button id="Simpan" class="row-btn float-right" onclick="toggleEditMode(); return false;">
+                                Kirim <i class="fas fa-paper-plane"></i>
+                            </button> -->
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Data Santri -->
+        <form class="row g-3 mx-auto" style="width: 100%;" id="data-Santri">
+            <div class="d-flex gap-2">
+                <h1><i class="fas fa-user-plus"></i> Santri Baru</h1>
+            </div>
+
+            <div id="Loading">
+                <div class="d-flex justify-content-center" style="margin: 40px 0px;">
+                    <div class="spinner-border text-success" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tempatTabel"></div>
+        </form>
+
+        <form class="row g-3" id="profile-Formal">
+            <div id="carouselLaki" class="carousel slide">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselLaki" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselLaki" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselLaki" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="./gambar/foto/l1.webp" class="d-block w-100" alt="Foto">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="./gambar/foto/l2.webp" class="d-block w-100" alt="Foto">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="./gambar/foto/l3.webp" class="d-block w-100" alt="Foto">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselLaki" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselLaki" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+
+            <div id="carouselPerempuan" class="carousel slide" style="display: none;">
+                <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselPerempuan" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselPerempuan" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselPerempuan" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="./gambar/foto/p1.webp" class="d-block w-100" alt="Foto">
+                </div>
+                <div class="carousel-item">
+                    <img src="./gambar/foto/p2.webp" class="d-block w-100" alt="Foto">
+                </div>
+                <div class="carousel-item">
+                    <img src="./gambar/foto/p3.webp" class="d-block w-100" alt="Foto">
+                </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselPerempuan" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselPerempuan" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+    
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+
+    <!-- jQuery (diperlukan oleh DataTables) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+
+
+    <script src="./scripts/script.js"></script>
+    <script src="./scripts/fungsi.js"></script>
+    <script src="./scripts/select.js"></script>
+    <script src="./scripts/online.js"></script>
+    <script src="./scripts/indexedDB.js"></script>
+    
+
+</body>
+ 
+</html>

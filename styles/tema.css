@@ -1,0 +1,33 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap");
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --app-bg: #f3f6fd;
+  --sidebar: #f7f9fc;
+  --sidebar-main-color: #1f1c2e;
+  --table-border: #d3d8e3;
+  --table-header: #c9d2e5;
+  --app-content-main-color: #1f1c2e;
+  --sidebar-link: #1f1c2e;
+  --sidebar-active-link: rgba(195, 207, 244, 1);
+  --sidebar-hover-link: rgb(187, 203, 239);
+  --action-color: #2869ff;
+  --action-color-hover: #6291fd;
+  --app-content-secondary-color: #f2f4f7;
+  --filter-reset: #d3d8e3;
+  --filter-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.light:root {
+  --app-bg: #1f1c2e;
+  --sidebar: #2c2f3f;
+  --app-content-secondary-color: #2c2f3f;
+  --app-content-main-color: #fff;
+  --sidebar-link: #fff;
+  --sidebar-hover-link: rgb(195, 207, 244);
+  --sidebar-active-link: rgba(195, 207, 244, 1);
+  --sidebar-main-color: #fff;
+  --filter-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}

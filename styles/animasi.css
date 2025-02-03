@@ -1,0 +1,78 @@
+#loadingContainer {
+    position: fixed;
+    top: -50px; /* Awalnya tersembunyi */
+    right: 0;
+    z-index: 99999;
+    width: 50%;
+    transition: top 0.5s ease-in-out; /* Animasi naik-turun */
+}
+
+.progress {
+    background-color: var(--filter-reset);
+    position: relative;
+    border-radius: 10px;
+    height: 10px;
+}
+
+.progress-bar {
+    background-color: var(--sidebar-active-link);
+    color: var(--sidebar-main-color);
+    position: relative;
+    border-radius: 10px;
+    font-size: 10px;
+}
+
+.badge,
+.btnBadge {
+    color: var(--app-content-main-color);
+}
+
+
+
+.hidden {
+    display: none; /* Hilangkan elemen dari tata letak */
+}
+
+.visible {
+    display: block; /* Tampilkan elemen di dalam tata letak */
+}
+
+
+/* ---------------- Animasi Transisi ------------------------------ */
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+    animation: fadeInAnimation 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.fade-out {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    animation: fadeOutAnimation 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes fadeOutAnimation {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.9);
+    }
+}
+
+
+
