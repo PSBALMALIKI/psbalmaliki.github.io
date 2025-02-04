@@ -232,7 +232,7 @@ async function selectUserByNIK(nik) {
         const userData = await getDataByNIK(db, storeName, nik);
   
         if (!userData) {
-            console.warn("⚠️ Data pengguna tidak ditemukan untuk NIK:", nik);
+            //console.warn("⚠️ Data pengguna tidak ditemukan untuk NIK:", nik);
             return;
         }
 

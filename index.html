@@ -561,6 +561,11 @@
                         <div class="profile-content mt-6">
 
                             <div class="mb-3">
+                                <label for="NoTelp" class="form-label"><i class="fas fa-phone"></i> NoTelp:</label>
+                                <input disabled type="tel" class="form-control" id="NoTelp" name="NoTelp" value="" maxlength="13" oninput="this.value = this.value.replace(/[^0-9]/g, '')"/>
+                            </div>
+
+                            <div class="mb-3">
                                 <label for="Formal" class="form-label"><i class="fas fa-graduation-cap"></i> Melanjutkan Ke:</label>
                                 <select disabled class="form-control" id="Formal" name="Formal">
                                     <option value="MTs. Nurul Huda">MTs. Nurul Huda</option>
@@ -568,6 +573,13 @@
                                 </select>
                             </div>
 
+                            <div class="mb-3">
+                                <label for="ProgramKhusus" class="form-label"><i class="fas fa-book-reader"></i> Program Unggulan:</label>
+                                <select disabled class="form-control" id="ProgramUnggulan" name="ProgramUnggulan">
+                                    <option value="Lembaga Spesialisasi Bahasa Arab">Lembaga Spesialisasi Bahasa Arab</option>
+                                    <option value="Lembaga Tahfidzul Quran">Lembaga Tahfidzul Quran</option>
+                                </select>
+                            </div>
                             <!--
                             <button id="Simpan" class="row-btn float-right" onclick="toggleEditMode(); return false;">
                                 Kirim <i class="fas fa-paper-plane"></i>
