@@ -118,23 +118,32 @@ function saveDataToStore(db, storeName, dataArray, primaryKey) {
 
 
 async function ambilDataSantri() {
-    let dbRequest = indexedDB.open("db"); // Tidak menentukan versi agar selalu mendapatkan versi terbaru
-    
-    dbRequest.onsuccess = function(event) {
-        let db = event.target.result;
-        let transaction = db.transaction("Santri", "readonly");
-        let store = transaction.objectStore("Santri");
-        let request = store.getAll();
-        
+    const dbName = 'db';
+    const storeName = 'Santri';
+
+    try {
+        const db = await openIndexedDB(dbName);
+        const transaction = db.transaction(storeName, 'readonly');
+        const store = transaction.objectStore(storeName);
+
+        if (!db.objectStoreNames.contains(storeName)) {
+            console.log('Store Santri tidak ditemukan');
+            return;
+        }
+
+        const request = store.getAll();
+
         request.onsuccess = function() {
-            let data = request.result;
+            const data = request.result;
             buatTabelSantri(data);
         };
-    };
-    
-    dbRequest.onerror = function() {
-        console.error("Gagal membuka database");
-    };
+
+        request.onerror = function() {
+            console.error("Gagal membuka database");
+        };
+    } catch (error) {
+        console.error('Database operation failed:', error);
+    }
 }
 
 function buatTabelSantri(data) {
