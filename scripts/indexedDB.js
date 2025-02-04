@@ -226,7 +226,10 @@ async function selectUserByNIK(nik) {
 
     const dbName = 'db';  // Sesuaikan dengan nama database IndexedDB
     const storeName = 'Santri'; // Sesuaikan dengan store tempat data Santri disimpan
-  
+    
+    const editBtn = document.getElementById('Edit');
+    editBtn.innerHTML = 'Isi Formulir <i class="fas fa-pen"></i>';
+    
     try {
         const db = await openIndexedDB(dbName);
         const userData = await getDataByNIK(db, storeName, nik);
@@ -242,9 +245,12 @@ async function selectUserByNIK(nik) {
             input.value = userData[input.name] || ' ';
         });
 
+        
+        editBtn.innerHTML = 'Edit Formulir <i class="fas fa-pen"></i>';
 
     } catch (error) {
         console.error("❌ Terjadi kesalahan:", error);
+        
     }
 }
 
