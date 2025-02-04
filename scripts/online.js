@@ -216,7 +216,7 @@ async function DownloadData() {
 
   try {
       console.log("Menghapus data lama dari IndexedDB...");
-      await deleteIndexedDBStore("Santri");
+      await clearIndexedDBStore("Santri");
       console.log("Data lama berhasil dihapus.");
 
       const filters = { Santri: {} }; // Kriteria filter
@@ -249,42 +249,39 @@ async function DownloadData() {
 
 document.addEventListener("DOMContentLoaded", DownloadData);
 
-async function deleteIndexedDBStore(storeName) {
+async function clearIndexedDBStore(storeName) {
   return new Promise((resolve, reject) => {
-      const request = indexedDB.open("db", 1);
-      
-      request.onupgradeneeded = function(event) {
-          const db = event.target.result;
-          if (db.objectStoreNames.contains(storeName)) {
-              db.deleteObjectStore(storeName);
-              console.log(`Store ${storeName} deleted successfully.`);
-          } else {
-              console.warn(`Store ${storeName} not found.`);
-          }
-      };
-      
+      const request = indexedDB.open("db"); // Gunakan versi terbaru yang ada
+
       request.onsuccess = function(event) {
           const db = event.target.result;
-          if (db.objectStoreNames.contains(storeName)) {
-              const transaction = db.transaction(storeName, 'readwrite');
-              const objectStore = transaction.objectStore(storeName);
-              const request = objectStore.clear();
-              request.onsuccess = function() {
-                  db.close();
-                  resolve(`Store ${storeName} deleted successfully.`);
-              };
-              request.onerror = function(event) {
-                  db.close();
-                  reject(`Error deleting store ${storeName}: ${event.target.error}`);
-              };
-          } else {
+
+          if (!db.objectStoreNames.contains(storeName)) {
+              console.warn(`Store '${storeName}' tidak ditemukan, tidak ada yang perlu dihapus.`);
               db.close();
-              resolve(`Store ${storeName} not found.`);
+              return resolve(`Store '${storeName}' tidak ditemukan.`);
           }
+
+          const transaction = db.transaction(storeName, "readwrite");
+          const objectStore = transaction.objectStore(storeName);
+          const clearRequest = objectStore.clear();
+
+          clearRequest.onsuccess = function() {
+              console.log(`Data dalam store '${storeName}' berhasil dikosongkan.`);
+              db.close();
+              resolve(`Store '${storeName}' berhasil dikosongkan.`);
+          };
+
+          clearRequest.onerror = function(event) {
+              console.error(`Gagal mengosongkan store '${storeName}':`, event.target.error);
+              db.close();
+              reject(`Gagal mengosongkan store '${storeName}': ${event.target.error}`);
+          };
       };
-      
+
       request.onerror = function(event) {
-          reject(`Error deleting store ${storeName}: ${event.target.error}`);
+          console.error("Gagal membuka database:", event.target.error);
+          reject(`Gagal membuka database: ${event.target.error}`);
       };
   });
 }

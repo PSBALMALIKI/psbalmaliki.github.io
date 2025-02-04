@@ -224,7 +224,7 @@ body {
 }
 
 .profile-content input:disabled, .profile-content select:disabled {
-  background-color: #10182700;
+  background-color: #10182700 !important;
   color: var(--app-content-main-color);
   border: none;
   margin-top: -15px;

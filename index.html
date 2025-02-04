@@ -141,16 +141,16 @@
                             
                             <div class="mb-3">
                                 <label for="NISM" class="form-label"><i class="fas fa-credit-card"></i> NISM:</label>
-                                <input disabled type="text" class="form-control" id="NISM" name="NISM" value=""/>
+                                <input disabled type="tel" class="form-control" id="NISM" name="NISM" value=""/>
                             </div>
                             <div class="mb-3">
                                 <label for="NISN" class="form-label"><i class="fas fa-credit-card"></i> NISN:</label>
-                                <input disabled type="text" class="form-control" id="NISN" name="NISN" value=""/>
+                                <input disabled type="tel" class="form-control" id="NISN" name="NISN" value="" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')"/>
                             </div>
 
                             <div class="mb-3">
                                 <label for="NoKK" class="form-label"><i class="fas fa-id-card"></i> NoKK:</label>
-                                <input disabled type="text" class="form-control" id="NoKK" name="NoKK" value=""/>
+                                <input disabled type="tel" class="form-control" id="NoKK" name="NoKK" value="" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '')"/>
                             </div>
                             <div class="mb-3">
                                 <label for="KepalaKeluarga" class="form-label"><i class="fas fa-user"></i> Kepala Keluarga:</label>
@@ -354,7 +354,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="NIKAyah" class="form-label"><i class="fas fa-id-card"></i> NIK Ayah:</label>
-                                <input disabled type="text" class="form-control" id="NIKAyah" name="NIKAyah" value=""/>
+                                <input disabled type="tel" class="form-control" id="NIKAyah" name="NIKAyah" value="" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '')"/>
                             </div>
                             <div class="mb-3">
                                 <label for="TempatLahirAyah" class="form-label"><i class="fas fa-map-marker-alt"></i> Tempat Lahir Ayah:</label>
@@ -408,7 +408,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="NIKIbu" class="form-label"><i class="fas fa-id-card"></i> NIK Ibu:</label>
-                                <input disabled type="text" class="form-control" id="NIKIbu" name="NIKIbu" value=""/>
+                                <input disabled type="tel" class="form-control" id="NIKIbu" name="NIKIbu" value="" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '')"/>
                             </div>
                             <div class="mb-3">
                                 <label for="TempatLahirIbu" class="form-label"><i class="fas fa-map-marker-alt"></i> Tempat Lahir Ibu:</label>
@@ -474,7 +474,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="NIKWali" class="form-label"><i class="fas fa-id-card"></i> NIK Wali:</label>
-                                    <input disabled type="text" class="form-control" id="NIKWali" name="NIKWali" value=""/>
+                                    <input disabled type="tel" class="form-control" id="NIKWali" name="NIKWali" value="" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '')"/>
                                 </div>
                                 <div class="mb-3">
                                     <label for="TempatLahirWali" class="form-label"><i class="fas fa-map-marker-alt"></i> Tempat Lahir Wali:</label>
