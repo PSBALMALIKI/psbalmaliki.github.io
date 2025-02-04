@@ -231,7 +231,7 @@ async function selectUserByNIK(nik) {
         return;
     }
   
-    console.log("Mencari NIK: ", nik);
+    //console.log("Mencari NIK: ", nik);
 
     const dbName = 'db';  // Sesuaikan dengan nama database IndexedDB
     const storeName = 'Santri'; // Sesuaikan dengan store tempat data Santri disimpan
