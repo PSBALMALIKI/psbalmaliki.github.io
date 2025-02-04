@@ -62,13 +62,13 @@
   padding: 10px;
   text-align: left;
   border-bottom: 2px solid var(--table-border);
-  font-size: 11pt;
+  font-size: 10pt;
   
 }
 
 #santriTable tbody tr {
   border-bottom: 1px solid var(--table-border);
-  font-size: 11pt;
+  font-size: 10pt;
   color: var(--app-content-main-color);
 }
 
