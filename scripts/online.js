@@ -273,6 +273,10 @@ async function deleteIndexedDBStore(storeName) {
                   db.close();
                   resolve(`Store ${storeName} deleted successfully.`);
               };
+              request.onerror = function(event) {
+                  db.close();
+                  reject(`Error deleting store ${storeName}: ${event.target.error}`);
+              };
           } else {
               db.close();
               resolve(`Store ${storeName} not found.`);
