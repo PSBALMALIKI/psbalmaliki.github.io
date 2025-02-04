@@ -185,13 +185,88 @@ function buatTabelSantri(data) {
     });
 }
 
-window.addEventListener('load', function() {
-    let dbRequest = indexedDB.open("db"); // Tidak menentukan versi agar selalu mendapatkan versi terbaru
-    
-    dbRequest.onsuccess = function(event) {
-        let db = event.target.result;
-        if (db.objectStoreNames.contains("Santri")) {
-            ambilDataSantri();
-        }
-    };
+
+document.getElementById('NIK').addEventListener('input', function() {
+    const nikInput = this.value.trim();
+    selectUserByNIK(nikInput);
 });
+
+
+function getDataByNIK(db, storeName, nik) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction(storeName, 'readonly');
+        const store = transaction.objectStore(storeName);
+        const request = store.openCursor(); // Gunakan cursor untuk mencari NIK
+
+        request.onsuccess = event => {
+            const cursor = event.target.result;
+            if (cursor) {
+                if (cursor.value.NIK === nik) {
+                    resolve(cursor.value); // Data ditemukan
+                    return;
+                }
+                cursor.continue(); // Lanjut ke data berikutnya
+            } else {
+                resolve(null); // Data tidak ditemukan
+            }
+        };
+
+        request.onerror = () => reject(request.error);
+    });
+}
+
+
+async function selectUserByNIK(nik) {
+    if (!nik) {
+        console.log("NIK tidak ditemukan");
+        return;
+    }
+  
+    console.log("Mencari NIK: ", nik);
+
+    const dbName = 'db';  // Sesuaikan dengan nama database IndexedDB
+    const storeName = 'Santri'; // Sesuaikan dengan store tempat data Santri disimpan
+  
+    try {
+        const db = await openIndexedDB(dbName);
+        const userData = await getDataByNIK(db, storeName, nik);
+  
+        if (!userData) {
+            console.warn("⚠️ Data pengguna tidak ditemukan untuk NIK:", nik);
+            return;
+        }
+
+        console.log("✅ Data ditemukan:", userData);
+
+        document.querySelectorAll('#isiFormulir input, #isiFormulir select').forEach(input => {
+            input.value = userData[input.name] || ' ';
+        });
+
+
+    } catch (error) {
+        console.error("❌ Terjadi kesalahan:", error);
+    }
+}
+
+
+
+function openIndexedDB(dbName) {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open(dbName);
+  
+        request.onsuccess = event => resolve(event.target.result);
+        request.onerror = () => reject(request.error);
+    });
+  }
+  
+  function getDataFromStore(db, storeName, key) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction(storeName, 'readonly');
+        const store = transaction.objectStore(storeName);
+        const request = store.get(key);
+  
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+  }
+    

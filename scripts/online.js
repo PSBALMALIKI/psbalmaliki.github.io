@@ -205,6 +205,8 @@ async function sendPostWithGet(jsonData) {
 }
 
 async function DownloadData() {
+  await ambilDataSantri();
+  
   console.log("Memulai proses download data...");
   
   const LoadingDownload = document.getElementById('Loading');
