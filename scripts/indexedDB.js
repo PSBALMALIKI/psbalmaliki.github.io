@@ -185,6 +185,13 @@ function buatTabelSantri(data) {
     });
 }
 
-// Panggil fungsi untuk mengambil dan menampilkan data
-ambilDataSantri();
-
+window.addEventListener('load', function() {
+    let dbRequest = indexedDB.open("db"); // Tidak menentukan versi agar selalu mendapatkan versi terbaru
+    
+    dbRequest.onsuccess = function(event) {
+        let db = event.target.result;
+        if (db.objectStoreNames.contains("Santri")) {
+            ambilDataSantri();
+        }
+    };
+});
