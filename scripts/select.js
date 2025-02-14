@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function setOpsiHide(idHide, Hide, selectId) {
   const selectElement = document.getElementById(selectId).value;
-  if (selectElement !== Hide) {
+  if (selectElement != Hide) {
       hideElementById(idHide);
   } else {
       showElementById(idHide);
