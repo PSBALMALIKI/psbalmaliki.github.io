@@ -168,7 +168,7 @@ function buatTabelSantri(data) {
         let tr = document.createElement("tr");
         tr.innerHTML = `
             <td>${index + 1}</td>
-            <td>${santri.Nama}</td>
+            <td>${santri.Nama.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')}</td>
             <td>${santri.Formal}</td>
         `;
         tbody.appendChild(tr);
