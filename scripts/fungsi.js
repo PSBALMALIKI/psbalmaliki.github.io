@@ -32,8 +32,8 @@ function BuatJson(header, idForm) {
         }
     });
 
-    formData.TanggalUpdate = new Date().toISOString().replace("T", " ").split(".")[0].replace("Z", "")
-
+    formData.TanggalUpdate = new Date(new Date().getTime() + (7 * 60 * 60 * 1000)).toISOString().replace("T", " ").split(".")[0].replace("Z", "")
+    
     formData.Hijriyah = `${jdToHijri(Math.floor((new Date()).getTime() / (1000 * 60 * 60 * 24)) + 2440587.5).year}-${jdToHijri(Math.floor((new Date()).getTime() / (1000 * 60 * 60 * 24)) + 2440587.5).month}-${jdToHijri(Math.floor((new Date()).getTime() / (1000 * 60 * 60 * 24)) + 2440587.5).day}`
     formData.Masehi = `${new Date().toISOString().split("T")[0]}`
 
