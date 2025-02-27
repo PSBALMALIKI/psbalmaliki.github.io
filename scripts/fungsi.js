@@ -32,11 +32,34 @@ function BuatJson(header, idForm) {
         }
     });
 
+    formData.TanggalUpdate = new Date().toISOString().replace("T", " ").split(".")[0].replace("Z", "")
+
+    formData.Hijriyah = `${jdToHijri(Math.floor((new Date()).getTime() / (1000 * 60 * 60 * 24)) + 2440587.5).year}-${jdToHijri(Math.floor((new Date()).getTime() / (1000 * 60 * 60 * 24)) + 2440587.5).month}-${jdToHijri(Math.floor((new Date()).getTime() / (1000 * 60 * 60 * 24)) + 2440587.5).day}`
+    formData.Masehi = `${new Date().toISOString().split("T")[0]}`
+
+
     // Tambahkan objek hasil form ke dalam array
     jsonResult[header].push(formData);
 
     return jsonResult;
 }
+
+// Fungsi untuk mengonversi Julian Day ke Hijriyah
+function jdToHijri(jd) {
+  const jd1 = 1948440; // Julian Day untuk 1 Muharram 1 H
+  const iDate = jd - jd1;
+  const iYear = Math.floor(iDate / 354.367);
+  const iMonth = Math.floor((iDate - (iYear * 354.367)) / 29.5306) + 1;
+  const iDay = Math.floor(iDate - (iYear * 354.367) - ((iMonth - 1) * 29.5306)) + 1;
+
+  // Mengembalikan objek dengan hari, bulan, dan tahun Hijriyah
+  return {
+      day: iDay,
+      month: iMonth < 10 ? '0' + iMonth : iMonth, // Format bulan dua digit
+      year: iYear + 1 // Tahun Hijriyah dimulai dari 1
+  };
+}
+
 
 
 function hideElementById(id) {
